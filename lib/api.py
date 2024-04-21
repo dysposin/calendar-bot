@@ -2,7 +2,7 @@ import datetime
 from lib import parsers, calendar, event
 
 
-def add(parameters: list[str], event_calendar: calendar.Calendar, parameter_count: int=4):
+def add(parameters: list[str], event_calendar: calendar.Calendar, parameter_count: int=5):
     """
     Add an event to a given calendar.
 
@@ -10,7 +10,7 @@ def add(parameters: list[str], event_calendar: calendar.Calendar, parameter_coun
     event_calendar (calendar.Calendar): calendar to update
     parameter_count (int): number of expected parameters
     """
-    # Pad the parameters list
+    # Pad the parameter list
     padding = [None]*(parameter_count - len(parameters))
     parameters.expand(padding)
 
@@ -62,8 +62,8 @@ def add(parameters: list[str], event_calendar: calendar.Calendar, parameter_coun
             date_end = datetime.datetime.combine(date_end,  time_end)
         case _:
             raise ValueError("Couldn't parse event date parameters")
-    new_event = event.Event(author, title, date_start, date_end, info, clock)
-    event_calendar.add_event(new_event)
+    event_new = event.Event(author, title, date_start, date_end, info, clock)
+    event_calendar.add_event(event_new)
 
 
 def remove(search_term: str, calendar: calendar.Calendar):
@@ -81,7 +81,7 @@ def remove(search_term: str, calendar: calendar.Calendar):
             return events
 
 
-def modify(search_term: str, parameters, calendar: calendar.Calendar):
+def modify(search_term: str, calendar: calendar.Calendar):
     """
     Update event if search term returns only one result, otherwise return all found events.
 
@@ -99,5 +99,10 @@ def modify(search_term: str, parameters, calendar: calendar.Calendar):
 
 
 def search(search_term: str, calendar: calendar.Calendar):
+    """
+    Search for calendar events based on a search string
+
+    search_string (str): Either a date, a range of dates, (fuzzy) title or the author
+    """
     events = calendar.search(search_term)
     return events

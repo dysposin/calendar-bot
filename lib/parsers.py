@@ -124,10 +124,15 @@ def parse_time_range(time_string: str) -> tuple[Optional[datetime.time], Optiona
     return time_start, time_end
 
 
-def parse_message(message, delimiter: str=',', parameter_count: int=4) -> tuple:
+def parse_message(message: str, delimiter: str=',', parameter_count: int=1) -> tuple:
     """
-
+    Parse API command and parameters from a given message
+    message (str): message from client
+    delimiter (str): delimiter for parameters (default ',')
+    parameter_count (int): expected count of parameters (default 5)
     """
     command, parameters = message.split(" ")
+    if command == "add":
+        parameter_count = 5
     parameters = parameters.split(delimiter, parameter_count)
     return command, parameters

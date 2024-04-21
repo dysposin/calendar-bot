@@ -44,7 +44,7 @@ class Calendar():
         date_end (datetime): End of the range
         """
         return [(i, _event) for i, _event in enumerate(self.events)
-                if date_start >= _event.start > date_end]
+                if date_start >= _event.start >= date_end]
 
 
     def get_by_date(self, date_start: datetime):
@@ -54,7 +54,7 @@ class Calendar():
         date_start (datetime): Starting date of the range (one day)
         """
         return [(i, _event) for i, _event in enumerate(self.events)
-                if _event.date_start == date_start]
+                if _event.date_start.date == date_start.date]
 
 
     def get_by_month(self, date_start: datetime):
@@ -137,5 +137,6 @@ class Calendar():
                 events.append(self.get_by_author(search_string))
                 if len(events) == 0:
                     events = self.get_by_title_fuzzy(search_string)
+                    events.append(self.get_by_title_substring(search_string))
         
         return set(events)
