@@ -90,9 +90,10 @@ def parse_date_range(date_string: str) -> tuple[Optional[datetime.date], Optiona
     elif delta < 0:
         elements_end.extend(elements_start[3 - delta:])
 
-    if elements_start[-1] < 2000:
+    # if the year is <100, assume it's current millenium
+    if elements_start[-1] < 100:
         elements_start[-1] += 2000
-    if elements_end[-1] < 2000:
+    if elements_end[-1] < 100:
         elements_end[-1] += 2000
     date_start = ".".join(elements_start)
     date_end = ".".join(elements_end)
